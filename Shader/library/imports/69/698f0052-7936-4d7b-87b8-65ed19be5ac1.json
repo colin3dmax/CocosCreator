@@ -1,0 +1,23 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "fontin_outline_gradient",
+    "texture": "dc2cf031-ed79-4656-836b-71af820d7a60",
+    "atlas": "",
+    "rect": [
+      3,
+      3,
+      493,
+      227
+    ],
+    "offset": [
+      -6.5,
+      11.5
+    ],
+    "originalSize": [
+      512,
+      256
+    ],
+    "rotated": 0
+  }
+}
