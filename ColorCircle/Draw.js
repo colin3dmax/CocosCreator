@@ -40,6 +40,7 @@ cc.Class({
         var vertices = [];
         
         var verMid = [];
+        // 颜色厚度值
         var colorLen = 30;
         for (var i = 0; i <= segments; i++) {
             var rads = i * coef;
