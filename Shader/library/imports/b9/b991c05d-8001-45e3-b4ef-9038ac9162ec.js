@@ -1,4 +1,5 @@
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
+var _default_vert_no_mvp = require("../Shaders/ccShader_Default_Vert_noMVP.js");
 var _wave_vh_frag = require("../Shaders/ccShader_Wave_VH_Frag.js");
 
 cc.Class({
@@ -15,26 +16,56 @@ cc.Class({
 
     _use: function _use() {
         this._program = new cc.GLProgram();
-        this._program.initWithVertexShaderByteArray(_default_vert, _wave_vh_frag);
+        if (cc.sys.isNative) {
+            cc.log("use native GLProgram");
+            this._program.initWithString(_default_vert_no_mvp, _wave_vh_frag);
+            this._program.link();
+            this._program.updateUniforms();
+        } else {
+            this._program.initWithVertexShaderByteArray(_default_vert, _wave_vh_frag);
 
-        this._program.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);
-        this._program.addAttribute(cc.ATTRIBUTE_NAME_COLOR, cc.VERTEX_ATTRIB_COLOR);
-        this._program.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);
-        this._program.link();
-        this._program.updateUniforms();
+            this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_POSITION, cc.macro.VERTEX_ATTRIB_POSITION);
+            this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_COLOR, cc.macro.VERTEX_ATTRIB_COLOR);
+            this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_TEX_COORD, cc.macro.VERTEX_ATTRIB_TEX_COORDS);
+            this._program.link();
+            this._program.updateUniforms();
+        }
 
         this._uniMotion = this._program.getUniformLocationForName("motion");
         this._uniAngle = this._program.getUniformLocationForName("angle");
 
-        this._program.setUniformLocationWith1f(this._uniAngle, this._angle);
+        if (cc.sys.isNative) {
+            var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this._program);
+            glProgram_state.setUniformFloat(this._uniAngle, this._angle);
+        } else {
+            this._program.setUniformLocationWith1f(this._uniAngle, this._angle);
+        }
 
-        cc.setProgram(this.node._sgNode, this._program);
+        this.setProgram(this.node._sgNode, this._program);
+    },
+    setProgram: function setProgram(node, program) {
+        if (cc.sys.isNative) {
+            var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(program);
+            node.setGLProgramState(glProgram_state);
+        } else {
+            node.setShaderProgram(program);
+        }
+
+        var children = node.children;
+        if (!children) return;
+
+        for (var i = 0; i < children.length; i++) this.setProgram(children[i], program);
     },
 
     update: function update(dt) {
         if (this._program) {
-            this._program.setUniformLocationWith1f(this._uniMotion, this._motion += 0.05);
-            this._program.updateUniforms();
+            if (cc.sys.isNative) {
+                var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this._program);
+                glProgram_state.setUniformFloat(this._uniMotion, this._motion += 0.05);
+            } else {
+                this._program.setUniformLocationWith1f(this._uniMotion, this._motion += 0.05);
+                this._program.updateUniforms();
+            }
             if (1.0e20 < this._motion) {
                 this._motion = 0;
             }
