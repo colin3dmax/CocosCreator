@@ -1,4 +1,5 @@
-Shader/local
+Shader/local/
 Shader/temp
 Shader/build
 Shader/temp/
+.DS_Store

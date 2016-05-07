@@ -1,4 +1,5 @@
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
+var _default_vert_no_mvp = require("../Shaders/ccShader_Default_Vert_noMVP.js");
 var _glass_frag = require("../Shaders/ccShader_Glass_Frag.js");
 
 cc.Class({
@@ -16,7 +17,6 @@ cc.Class({
             this.glassFactor=0;
         }
         this.glassFactor+=dt*3;
-        cc.log(this.glassFactor)
 
 
         if(this._program){
@@ -35,7 +35,7 @@ cc.Class({
         if (cc.sys.isNative) {
             cc.log("use native GLProgram")
             this._program = new cc.GLProgram();
-            this._program.initWithString(_default_vert, _glass_frag);
+            this._program.initWithString(_default_vert_no_mvp, _glass_frag);
             this._program.link();
             this._program.updateUniforms();
             
