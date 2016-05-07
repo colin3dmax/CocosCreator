@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, '96880Mj0cdDB4XR7BWESnn1', 'Emboss');
 // Script/Emboss.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _emboss_frag = require("../Shaders/ccShader_Emboss_Frag.js");

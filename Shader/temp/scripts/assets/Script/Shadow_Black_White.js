@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, '7b15cFSchVHjaD3Jpz4tjaj', 'Shadow_Black_White');
 // Script/Shadow_Black_White.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _shadow_black_white_frag = require("../Shaders/ccShader_Shadow_Black_White_Frag.js");

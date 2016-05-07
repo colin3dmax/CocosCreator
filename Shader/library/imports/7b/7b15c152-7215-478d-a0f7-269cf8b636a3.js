@@ -1,5 +1,3 @@
-"use strict";
-
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _shadow_black_white_frag = require("../Shaders/ccShader_Shadow_Black_White_Frag.js");
 

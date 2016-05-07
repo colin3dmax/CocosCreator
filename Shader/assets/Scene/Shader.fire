@@ -3,7 +3,6 @@
     "__type__": "cc.SceneAsset",
     "_name": "",
     "_objFlags": 0,
-    "_rawFiles": null,
     "scene": {
       "__id__": 1
     }
@@ -39,9 +38,9 @@
     ],
     "_localZOrder": 0,
     "_globalZOrder": 0,
-    "_ignoreAnchorPointForPosition": false,
     "_tag": -1,
     "_opacityModifyRGB": false,
+    "_reorderChildDirty": false,
     "_id": "361320d0-cdc6-4738-abe4-44368784a2f8"
   },
   {
@@ -88,9 +87,9 @@
     "_skewY": 0,
     "_localZOrder": 0,
     "_globalZOrder": 0,
-    "_ignoreAnchorPointForPosition": false,
     "_tag": -1,
     "_opacityModifyRGB": false,
+    "_reorderChildDirty": false,
     "_id": "cad15nEz+dLy776XqsxBk2O",
     "_active": true,
     "_components": [
@@ -140,9 +139,9 @@
     "_skewY": 0,
     "_localZOrder": 0,
     "_globalZOrder": 0,
-    "_ignoreAnchorPointForPosition": false,
     "_tag": -1,
     "_opacityModifyRGB": false,
+    "_reorderChildDirty": false,
     "_id": "b188eFkxN9JIb9UX5FRlvF5",
     "_active": true,
     "_components": [
@@ -167,7 +166,18 @@
       "__uuid__": "83a205ec-c260-48d8-be2b-dedf03d3e420"
     },
     "_type": 0,
-    "_useOriginalSize": false,
+    "_sizeMode": 1,
+    "_fillType": 0,
+    "_fillCenter": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "_fillStart": 0,
+    "_fillRange": 0,
+    "_isTrimmedMode": true,
+    "_srcBlendFactor": 770,
+    "_dstBlendFactor": 771,
     "_atlas": null
   },
   {
@@ -182,7 +192,7 @@
   {
     "__type__": "cc.Canvas",
     "_name": "",
-    "_objFlags": 0,
+    "_objFlags": 1835008,
     "node": {
       "__id__": 2
     },

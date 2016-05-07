@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, '5898b9+Nz1Mtb9hpqGfj1ML', 'Negative_Black_White');
 // Script/Negative_Black_White.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _negative_black_white_frag = require("../Shaders/ccShader_Negative_Black_White_Frag.js");

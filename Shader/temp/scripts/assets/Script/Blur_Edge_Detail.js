@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, 'dd0cfUZNt1BMqcicmcIieWs', 'Blur_Edge_Detail');
 // Script/Blur_Edge_Detail.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _blur_edge_detail_frag = require("../Shaders/ccShader_Blur_Edge_Detail_Frag.js");

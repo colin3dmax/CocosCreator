@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, '1223bWIWhFParPR7jg0vHan', 'Negative_Image');
 // Script/Negative_Image.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _negative_image_frag = require("../Shaders/ccShader_Negative_Image_Frag.js");

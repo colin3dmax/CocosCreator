@@ -1,8 +1,8 @@
 {
   "windows": {
     "main": {
-      "x": 0,
-      "y": 29,
+      "x": 887,
+      "y": 128,
       "width": 1280,
       "height": 739,
       "layout": {
@@ -75,27 +75,11 @@
         "type": "dock"
       }
     },
-    "editor-window-1456392695053": {
-      "x": 340,
-      "y": 78,
-      "width": 600,
-      "height": 622,
-      "layout": {
-        "docks": [
-          {
-            "active": 0,
-            "height": 600,
-            "panels": [
-              "downloader.panel"
-            ],
-            "type": "panel",
-            "width": 600
-          }
-        ],
-        "no-collapse": true,
-        "row": false,
-        "type": "dock"
-      }
+    "editor-window-1462536077601": {
+      "x": 136,
+      "y": 61,
+      "width": 1673,
+      "height": 1071
     }
   }
 }

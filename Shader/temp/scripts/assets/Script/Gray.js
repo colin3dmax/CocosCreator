@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, 'beb6duloztFW7GMx6d9gIya', 'Gray');
 // Script/Gray.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _gray_frag = require("../Shaders/ccShader_Gray_Frag.js");

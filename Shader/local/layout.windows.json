@@ -1,79 +1,91 @@
 {
   "windows": {
     "main": {
-      "x": 0,
-      "y": 30,
-      "width": 1280,
-      "height": 739,
+      "x": 185,
+      "y": 92,
+      "width": 1533,
+      "height": 1058,
       "layout": {
         "docks": [
           {
             "docks": [
               {
                 "active": 0,
-                "height": 322.5,
+                "height": 482.75,
                 "panels": [
                   "hierarchy.panel"
                 ],
                 "type": "panel",
-                "width": 269
+                "width": 322.671875
               },
               {
                 "active": 0,
-                "height": 322.5,
+                "height": 481.25,
                 "panels": [
                   "assets.panel"
                 ],
                 "type": "panel",
-                "width": 269
+                "width": 322.671875
               }
             ],
-            "height": 648,
+            "height": 967,
             "row": false,
             "type": "dock",
-            "width": 269
+            "width": 322.671875
           },
           {
             "docks": [
               {
                 "active": 0,
-                "height": 336,
+                "height": 502.171875,
                 "panels": [
                   "scene.panel"
                 ],
                 "type": "panel",
-                "width": 699
+                "width": 838.46875
               },
               {
                 "active": 0,
-                "height": 309,
+                "height": 461.828125,
                 "panels": [
                   "console.panel",
                   "timeline.panel"
                 ],
                 "type": "panel",
-                "width": 699
+                "width": 838.46875
               }
             ],
-            "height": 648,
+            "height": 967,
             "row": false,
             "type": "dock",
-            "width": 699
+            "width": 838.46875
           },
           {
             "active": 0,
-            "height": 648,
+            "height": 967,
             "panels": [
               "inspector.panel"
             ],
             "type": "panel",
-            "width": 300
+            "width": 359.859375
           }
         ],
         "no-collapse": true,
         "row": true,
         "type": "dock"
       }
+    },
+    "editor-window-1462590050411": {
+      "x": 1281,
+      "y": 27,
+      "width": 1265,
+      "height": 1007
+    },
+    "worker": {
+      "x": 1080,
+      "y": 548,
+      "width": 400,
+      "height": 300
     }
   }
 }

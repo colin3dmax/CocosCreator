@@ -1,5 +1,3 @@
-"use strict";
-
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _wave_v_frag = require("../Shaders/ccShader_Wave_V_Frag.js");
 

@@ -1,5 +1,3 @@
-"use strict";
-
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _negative_black_white_frag = require("../Shaders/ccShader_Negative_Black_White_Frag.js");
 

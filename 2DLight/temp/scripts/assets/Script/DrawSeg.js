@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, '9abf2gT0JVFU6XeixbvW9PI', 'DrawSeg');
 // Script/DrawSeg.js
-
-"use strict";
 
 var LightLine = {
     segA: cc.p(0, 0),

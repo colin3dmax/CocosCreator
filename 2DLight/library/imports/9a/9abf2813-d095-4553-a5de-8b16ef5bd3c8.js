@@ -1,5 +1,3 @@
-"use strict";
-
 var LightLine = {
     segA: cc.p(0, 0),
     segB: cc.p(0, 0)

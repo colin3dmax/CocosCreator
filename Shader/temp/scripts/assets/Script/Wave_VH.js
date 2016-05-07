@@ -1,7 +1,6 @@
+"use strict";
 cc._RFpush(module, 'b991cBdgAFF47TvkDiskWLs', 'Wave_VH');
 // Script/Wave_VH.js
-
-"use strict";
 
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _wave_vh_frag = require("../Shaders/ccShader_Wave_VH_Frag.js");
