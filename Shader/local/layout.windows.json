@@ -1,8 +1,8 @@
 {
   "windows": {
     "main": {
-      "x": 546,
-      "y": 296,
+      "x": 1128,
+      "y": 130,
       "width": 1418,
       "height": 993,
       "layout": {
@@ -75,27 +75,11 @@
         "type": "dock"
       }
     },
-    "editor-window-1462683504912": {
-      "x": 230,
-      "y": 348,
-      "width": 500,
-      "height": 722,
-      "layout": {
-        "docks": [
-          {
-            "active": 0,
-            "height": 700,
-            "panels": [
-              "builder.panel"
-            ],
-            "type": "panel",
-            "width": 500
-          }
-        ],
-        "no-collapse": true,
-        "row": false,
-        "type": "dock"
-      }
+    "editor-window-1462700826992": {
+      "x": 1229,
+      "y": 54,
+      "width": 1199,
+      "height": 1166
     }
   }
 }
