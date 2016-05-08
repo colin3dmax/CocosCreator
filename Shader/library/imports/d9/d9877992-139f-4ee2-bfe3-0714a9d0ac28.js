@@ -1,0 +1,1 @@
+module.exports = "attribute vec4 a_position;\n" + "attribute vec2 a_texCoord;\n" + "attribute vec4 a_color;\n" + "varying vec2 v_texCoord;\n" + "varying vec4 v_color;\n" + "\n" + "\n" + "void main()\n" + "{\n" + "    vec4 pos=vec4(a_position.xy,0,1);\n" + "    gl_Position = CC_MVPMatrix * pos;\n" + "    v_texCoord = a_texCoord;\n" + "    v_color = a_color;\n" + "    \n" + "}\n";

@@ -18,13 +18,14 @@ cc.Class({
         }
         this.glassFactor+=dt*3;
 
-
         if(this._program){
+
+            this._program.use();
             if(cc.sys.isNative){
                 var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this._program);
-                glProgram_state.setUniformFloat( this._uniBlurRadiusScale ,this.glassFactor);
+                glProgram_state.setUniformFloat( "blurRadiusScale" ,this.glassFactor);
             }else{
-                this._program.setUniformLocationWith1f( this._uniBlurRadiusScale, this.glassFactor );    
+                this._program.setUniformLocationWith1f( this._uniBlurRadiusScale, this.glassFactor );
             }
         }
     },
@@ -32,15 +33,13 @@ cc.Class({
     _use: function()
     {
         
+        this._program = new cc.GLProgram();
         if (cc.sys.isNative) {
-            cc.log("use native GLProgram")
-            this._program = new cc.GLProgram();
             this._program.initWithString(_default_vert_no_mvp, _glass_frag);
             this._program.link();
             this._program.updateUniforms();
             
         }else{
-            this._program = new cc.GLProgram();
             this._program.initWithVertexShaderByteArray(_default_vert, _glass_frag);
             
             this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_POSITION, cc.macro.VERTEX_ATTRIB_POSITION);
@@ -48,31 +47,29 @@ cc.Class({
             this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_TEX_COORD, cc.macro.VERTEX_ATTRIB_TEX_COORDS);
             this._program.link();
             this._program.updateUniforms();
+            this._program.use();
         }
         
-
-       
         
-        this._uniWidthStep = this._program.getUniformLocationForName( "widthStep" );
-        this._uniHeightStep = this._program.getUniformLocationForName( "heightStep" );
-        this._uniBlurRadiusScale = this._program.getUniformLocationForName( "blurRadiusScale" );
         
         
         if (cc.sys.isNative) {
             var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this._program);
-            glProgram_state.setUniformFloat( this._uniWidthStep , ( 1.0 / this.node.getContentSize().width ) );
-            glProgram_state.setUniformFloat( this._uniHeightStep , ( 1.0 / this.node.getContentSize().height ) );
-            glProgram_state.setUniformFloat( this._uniBlurRadiusScale ,this.glassFactor);
+            glProgram_state.setUniformFloat( "widthStep" , ( 1.0 / this.node.getContentSize().width ) );
+            glProgram_state.setUniformFloat( "heightStep" , ( 1.0 / this.node.getContentSize().height ) );
+            glProgram_state.setUniformFloat( "blurRadiusScale" ,this.glassFactor);
         }else{
+
+
+            this._uniWidthStep = this._program.getUniformLocationForName( "widthStep" );
+            this._uniHeightStep = this._program.getUniformLocationForName( "heightStep" );
+            this._uniBlurRadiusScale = this._program.getUniformLocationForName( "blurRadiusScale" );
+
             this._program.setUniformLocationWith1f( this._uniWidthStep, ( 1.0 / this.node.getContentSize().width ) );
             this._program.setUniformLocationWith1f( this._uniHeightStep, ( 1.0 / this.node.getContentSize().height ) );
             this._program.setUniformLocationWith1f( this._uniBlurRadiusScale, this.glassFactor );
         }
-       
-        
-        // cc.shaderCache.addProgram(this._program,"Glass");
-        // var sharderProgram = cc.shaderCache.programForKey("Glass");
-        
+
         this.setProgram( this.node._sgNode ,this._program );
     },
     

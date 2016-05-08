@@ -60,6 +60,8 @@ cc.Class({
 
     update: function update(dt) {
         if (this._program) {
+
+            this._program.use();
             if (cc.sys.isNative) {
                 var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(this._program);
                 glProgram_state.setUniformFloat(this._uniMotion, this._motion += 0.05);
