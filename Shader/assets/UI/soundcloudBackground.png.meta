@@ -1,0 +1,28 @@
+{
+  "ver": "1.0.0",
+  "uuid": "4127936c-9b74-4574-b954-ac8c762ae4b3",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "soundcloudBackground": {
+      "ver": "1.0.2",
+      "uuid": "dafcdb93-eeb7-4c87-ba71-7e524edac13d",
+      "rawTextureUuid": "4127936c-9b74-4574-b954-ac8c762ae4b3",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 32,
+      "height": 58,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

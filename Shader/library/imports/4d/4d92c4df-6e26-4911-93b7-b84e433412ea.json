@@ -1,0 +1,23 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "pause",
+    "texture": "476dce6d-8d97-4a27-85dd-448b70350390",
+    "atlas": "",
+    "rect": [
+      6,
+      4,
+      10,
+      13
+    ],
+    "offset": [
+      0,
+      0.5
+    ],
+    "originalSize": [
+      22,
+      22
+    ],
+    "rotated": 0
+  }
+}

@@ -31,6 +31,7 @@ cc.Class({
 
     onLoad: function onLoad() {
         var self = this;
+        var now = new Date();
         this.parameters = {
             startTime: Date.now(),
             time: 0.0,
@@ -44,17 +45,52 @@ cc.Class({
                 x: 0.0,
                 y: 0.0,
                 z: 1.0
-            }
+            },
+            date: {
+                x: now.getYear(), //year
+                y: now.getMonth(), //month
+                z: now.getDate(), //day
+                w: now.getTime() },
+            //time seconds
+            isMouseDown: false
 
         };
+        this.node.on(cc.Node.EventType.MOUSE_DOWN, function (event) {
+            this.parameters.isMouseDown = true;
+        }, this);
+
+        this.node.on(cc.Node.EventType.MOUSE_UP, function (event) {
+            this.parameters.isMouseDown = false;
+        }, this);
+
+        this.node.on(cc.Node.EventType.MOUSE_LEAVE, function (event) {
+            this.parameters.isMouseDown = false;
+        }, this);
+
+        this.node.on(cc.Node.EventType.TOUCH_START, function (event) {
+            this.parameters.isMouseDown = true;
+        }, this);
+
+        this.node.on(cc.Node.EventType.TOUCH_END, function (event) {
+            this.parameters.isMouseDown = false;
+        }, this);
+
+        this.node.on(cc.Node.EventType.TOUCH_CANCEL, function (event) {
+            this.parameters.isMouseDown = false;
+        }, this);
+
         this.node.on(cc.Node.EventType.MOUSE_MOVE, function (event) {
-            this.parameters.mouse.x = this.node.getContentSize().width / event.getLocationX();
-            this.parameters.mouse.y = this.node.getContentSize().height / event.getLocationY();
+            if (this.parameters.isMouseDown) {
+                this.parameters.mouse.x = event.getLocationX();
+                this.parameters.mouse.y = event.getLocationY();
+            }
         }, this);
 
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
-            this.parameters.mouse.x = this.node.getContentSize().width / event.getLocationX();
-            this.parameters.mouse.y = this.node.getContentSize().height / event.getLocationY();
+            if (this.parameters.isMouseDown) {
+                this.parameters.mouse.x = event.getLocationX();
+                this.parameters.mouse.y = event.getLocationY();
+            }
         }, this);
 
         cc.loader.loadRes(self.flagShader, function (err, txt) {
@@ -81,10 +117,12 @@ cc.Class({
                 glProgram_state.setUniformVec3("iResolution", this.parameters.resolution);
                 glProgram_state.setUniformFloat("iGlobalTime", this.parameters.time);
                 glProgram_state.setUniformVec4("iMouse", this.parameters.mouse);
+                glProgram_state.setUniformVec4("iDate", this.parameters.date);
             } else {
                 this._program.setUniformLocationWith3f(this._resolution, this.parameters.resolution.x, this.parameters.resolution.y, this.parameters.resolution.z);
                 this._program.setUniformLocationWith1f(this._time, this.parameters.time);
-                this._program.setUniformLocationWith4f(this._mouse, this.parameters.mouse.x, this.parameters.mouse.x);
+                this._program.setUniformLocationWith4f(this._mouse, this.parameters.mouse.x, this.parameters.mouse.y, this.parameters.mouse.z, this.parameters.mouse.w);
+                this._program.setUniformLocationWith4f(this._date, this.parameters.date.x, this.parameters.date.y, this.parameters.date.z, this.parameters.date.w);
             }
         }
     },
@@ -121,9 +159,10 @@ cc.Class({
 
             this.updateGLParameters();
 
+            this._program.setUniformLocationWith3f(this._program.getUniformLocationForName('iResolution'), this.parameters.resolution.x, this.parameters.resolution.y, this.parameters.resolution.z);
             this._program.setUniformLocationWith1f(this._program.getUniformLocationForName('iGlobalTime'), this.parameters.time);
             this._program.setUniformLocationWith4f(this._program.getUniformLocationForName('iMouse'), this.parameters.mouse.x, this.parameters.mouse.y, this.parameters.mouse.z, this.parameters.mouse.w);
-            this._program.setUniformLocationWith3f(this._program.getUniformLocationForName('iResolution'), this.parameters.resolution.x, this.parameters.resolution.y, this.parameters.resolution.z);
+            this._program.setUniformLocationWith4f(this._program.getUniformLocationForName('iDate'), this.parameters.date.x, this.parameters.date.y, this.parameters.date.z, this.parameters.date.w);
         }
 
         if (cc.sys.isNative) {
@@ -140,6 +179,7 @@ cc.Class({
             this._program.setUniformLocationWith3f(this._resolution, this.parameters.resolution.x, this.parameters.resolution.y, this.parameters.resolution.z);
             this._program.setUniformLocationWith1f(this._time, this.parameters.time);
             this._program.setUniformLocationWith4f(this._mouse, this.parameters.mouse.x, this.parameters.mouse.y, this.parameters.mouse.z, this.parameters.mouse.w);
+            this._program.setUniformLocationWith4f(this._date, this.parameters.date.x, this.parameters.date.y, this.parameters.date.z, this.parameters.date.w);
         }
 
         this.setProgram(this.node._sgNode, this._program);

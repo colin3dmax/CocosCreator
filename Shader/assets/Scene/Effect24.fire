@@ -321,7 +321,7 @@
     },
     "_enabled": true,
     "glassFactor": 1,
-    "flagShader": "Effect23.fs.glsl",
+    "flagShader": "Effect24.fs.glsl",
     "frag_glsl": "Effect10.fs.glsl"
   },
   {

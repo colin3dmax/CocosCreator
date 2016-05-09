@@ -3,6 +3,11 @@
 * 支持拖拽方式添加Effect效果到Creator项目  
 * 支持Creator WebGL 和 Native原生版本
 * 新增加20个Shader特效
+* 新增加100个Shadertoy的特效
+
+##ToDo:
+* textureCube的支持
+* 对声音的支持
 
 ###Shader效果展示  
 ![Shader Web运行效果](screen_imgs/EffectWebAnim.gif)
@@ -21,3 +26,4 @@
 ![Shader Web运行效果](screen_imgs/Effect16.png)
 ![Shader Web运行效果](screen_imgs/Effect18.png)
 ![Shader Web运行效果](screen_imgs/Effect20.png)
+

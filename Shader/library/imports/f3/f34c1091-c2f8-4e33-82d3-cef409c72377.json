@@ -1,0 +1,23 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "keyboard",
+    "texture": "16ea916c-704c-4604-b138-4be6f7bc7e2d",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      80,
+      58
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      80,
+      58
+    ],
+    "rotated": 0
+  }
+}

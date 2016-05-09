@@ -33,347 +33,194 @@ uniform vec4      iMouse;                // mouse pixel coords. xy: current (if 
 
 
 //_______________________________________________________________________________________________________
-// "Double Pendulum" by dr2 - 2016
-// License: Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License
+/*
+"Seascape" by Alexander Alekseev aka TDM - 2014
+License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+Contact: tdmaav@gmail.com
+*/
 
-// /*
-//   The simplest mechanical system that exhibits deterministic chaos.
+const int NUM_STEPS = 8;
+const float PI	 	= 3.1415;
+const float EPSILON	= 1e-3;
+float EPSILON_NRM	= 0.1 / iResolution.x;
 
-//   The two sliders on the left control the relative masses of the two bobs
-//   and the arm lengths. The right sliders control the initial angular
-//   velocities of the two arms. Each change restarts the simulation.
+// sea
+const int ITER_GEOMETRY = 3;
+const int ITER_FRAGMENT = 5;
+const float SEA_HEIGHT = 0.6;
+const float SEA_CHOPPY = 4.0;
+const float SEA_SPEED = 0.8;
+const float SEA_FREQ = 0.16;
+const vec3 SEA_BASE = vec3(0.1,0.19,0.22);
+const vec3 SEA_WATER_COLOR = vec3(0.8,0.9,0.6);
+float SEA_TIME = iGlobalTime * SEA_SPEED;
+mat2 octave_m = mat2(1.6,1.2,-1.2,1.6);
 
-//   The total energy is shown; if the numerical integration is sufficiently
-//   accurate this should remain unchanged.
-
-//   The dots show the most recent segment of the trajectory of the end bob.
-
-//   Examine different parameter combinations to see the kinds of behavior that
-//   can occur.
-// */
-
-#define txBuf iChannel0
-#define txSize iChannelResolution[0].xy
-
-float Fbm2 (vec2 p);
-vec2 Rot2D (vec2 q, float a);
-float ShowInt (vec2 q, vec2 cBox, float mxChar, float val);
-vec3 ShowWg (vec2 uv, vec2 canvas, vec3 col, vec4 slVal);
-
-float PrBoxDf (vec3 p, vec3 b)
-{
-  vec3 d;
-  d = abs (p) - b;
-  return min (max (d.x, max (d.y, d.z)), 0.) + length (max (d, 0.));
+// math
+mat3 fromEuler(vec3 ang) {
+	vec2 a1 = vec2(sin(ang.x),cos(ang.x));
+    vec2 a2 = vec2(sin(ang.y),cos(ang.y));
+    vec2 a3 = vec2(sin(ang.z),cos(ang.z));
+    mat3 m;
+    m[0] = vec3(a1.y*a3.y+a1.x*a2.x*a3.x,a1.y*a2.x*a3.x+a3.y*a1.x,-a2.y*a3.x);
+	m[1] = vec3(-a2.y*a1.x,a1.y*a2.y,a2.x);
+	m[2] = vec3(a3.y*a1.x*a2.x+a1.y*a3.x,a1.x*a3.x-a1.y*a3.y*a2.x,a2.y*a3.y);
+	return m;
+}
+float hash( vec2 p ) {
+	float h = dot(p,vec2(127.1,311.7));	
+    return fract(sin(h)*43758.5453123);
+}
+float noise( in vec2 p ) {
+    vec2 i = floor( p );
+    vec2 f = fract( p );	
+	vec2 u = f*f*(3.0-2.0*f);
+    return -1.0+2.0*mix( mix( hash( i + vec2(0.0,0.0) ), 
+                     hash( i + vec2(1.0,0.0) ), u.x),
+                mix( hash( i + vec2(0.0,1.0) ), 
+                     hash( i + vec2(1.0,1.0) ), u.x), u.y);
 }
 
-float PrSphDf (vec3 p, float s)
-{
-  return length (p) - s;
+// lighting
+float diffuse(vec3 n,vec3 l,float p) {
+    return pow(dot(n,l) * 0.4 + 0.6,p);
+}
+float specular(vec3 n,vec3 l,vec3 e,float s) {    
+    float nrm = (s + 8.0) / (3.1415 * 8.0);
+    return pow(max(dot(reflect(e,n),l),0.0),s) * nrm;
 }
 
-float PrCylDf (vec3 p, float r, float h)
-{
-  return max (length (p.xy) - r, abs (p.z) - h);
+// sky
+vec3 getSkyColor(vec3 e) {
+    e.y = max(e.y,0.0);
+    vec3 ret;
+    ret.x = pow(1.0-e.y,2.0);
+    ret.y = 1.0-e.y;
+    ret.z = 0.6+(1.0-e.y)*0.4;
+    return ret;
 }
 
-const float txRow = 32.;
-
-vec4 Loadv4 (int idVar)
-{
-  float fi;
-  fi = float (idVar);
-  return texture2D (txBuf, (vec2 (mod (fi, txRow), floor (fi / txRow)) + 0.5) /
-     txSize);
+// sea
+float sea_octave(vec2 uv, float choppy) {
+    uv += noise(uv);        
+    vec2 wv = 1.0-abs(sin(uv));
+    vec2 swv = abs(cos(uv));    
+    wv = mix(wv,swv,wv);
+    return pow(1.0-pow(wv.x * wv.y,0.65),choppy);
 }
 
-vec3 vnBall, ltDir;
-float rLen[2], bRad[2], pAng[2], dstBall, dstFar;
-int idObj;
-const int ntPoint = 120;
-
-float ObjDf (vec3 p)
-{
-  vec3 q;
-  float dMin, d;
-  dMin = dstFar;
-  q = p;
-  q.xy = Rot2D (q.xy, pAng[0]);
-  q.y -= - rLen[0];
-  d = PrCylDf (q.xzy, 0.03, rLen[0]);
-  if (d < dMin) { dMin = d;  idObj = 1; }
-  q.yz -= vec2 (- rLen[0], -0.03);
-  d = PrSphDf (q, bRad[0]);
-  if (d < dMin) { dMin = d;  idObj = 2; }
-  q.xy = Rot2D (q.xy, pAng[1] - pAng[0]);
-  q.yz -= vec2 (- rLen[1], -0.03);
-  d = PrCylDf (q.xzy, 0.03, rLen[1]);
-  if (d < dMin) { dMin = d;  idObj = 1; }
-  q.yz -= vec2 (- rLen[1], -0.03);
-  d = PrSphDf (q, bRad[1]);
-  if (d < dMin) { dMin = d;  idObj = 2; }
-  q = p;  q.yz -= vec2 (-1.1 * (rLen[0] + rLen[1]), 0.5);
-  d = PrBoxDf (q, vec3 (0.2, 1.15 * (rLen[0] + rLen[1]), 0.1));
-  if (d < dMin) { dMin = d;  idObj = 3; }
-  q = p;  q.y -= - 2.15 * (rLen[0] + rLen[1]) - 0.1;
-  d = PrBoxDf (q, vec3 (1., 0.1, 1.));
-  if (d < dMin) { dMin = d;  idObj = 3; }
-  q = p;  q.z -= 0.25;
-  d = PrCylDf (q, 0.1, 0.25);
-  if (d < dMin) { dMin = d;  idObj = 4; }
-  return dMin;
-}
-
-float ObjRay (vec3 ro, vec3 rd)
-{
-  float dHit, d;
-  dHit = 0.;
-  for (int j = 0; j < 150; j ++) {
-    d = ObjDf (ro + dHit * rd);
-    dHit += d;
-    if (d < 0.001 || dHit > dstFar) break;
-  }
-  return dHit;
-}
-
-vec3 ObjNf (vec3 p)
-{
-  const vec3 e = vec3 (0.001, -0.001, 0.);
-  vec4 v = vec4 (ObjDf (p + e.xxx), ObjDf (p + e.xyy),
-     ObjDf (p + e.yxy), ObjDf (p + e.yyx));
-  return normalize (vec3 (v.x - v.y - v.z - v.w) + 2. * v.yzw);
-}
-
-float TBallHit (vec3 ro, vec3 rd)
-{
-  vec3 p;
-  vec3 v;
-  float b, d, w, dMin, sz;
-  dMin = dstFar;
-  sz = 0.05;
-  p.z = 0.;
-  for (int n = 0; n < ntPoint; n ++) {
-    p.xy = Loadv4 (4 + n).xy;
-    p.xy *= -4.;
-    v = ro - p.xyz;
-    b = dot (rd, v);
-    w = b * b + sz * sz - dot (v, v);
-    if (w >= 0.) {
-      d = - b - sqrt (w);
-      if (d > 0. && d < dMin) {
-        dMin = d;
-        vnBall = (v + d * rd) / sz;
-      }
+float map(vec3 p) {
+    float freq = SEA_FREQ;
+    float amp = SEA_HEIGHT;
+    float choppy = SEA_CHOPPY;
+    vec2 uv = p.xz; uv.x *= 0.75;
+    
+    float d, h = 0.0;    
+    for(int i = 0; i < ITER_GEOMETRY; i++) {        
+    	d = sea_octave((uv+SEA_TIME)*freq,choppy);
+    	d += sea_octave((uv-SEA_TIME)*freq,choppy);
+        h += d * amp;        
+    	uv *= octave_m; freq *= 1.9; amp *= 0.22;
+        choppy = mix(choppy,1.0,0.2);
     }
-  }
-  return dMin;
+    return p.y - h;
 }
 
-vec3 WoodCol (vec3 p, vec3 n)
-{
-  p *= 4.;
-  float f = dot (vec3 (Fbm2 (p.zy * vec2 (1., 0.1)),
-     Fbm2 (p.zx * vec2 (1., 0.1)), Fbm2 (p.xy * vec2 (1., 0.1))), abs (n));
-  return mix (vec3 (0.8, 0.4, 0.2), vec3 (0.45, 0.25, 0.1), f);
-}
-
-vec3 ShowScene (vec3 ro, vec3 rd)
-{
-  vec3 vn, col;
-  float dstObj;
-  int idObjT;
-  dstBall = TBallHit (ro, rd);
-  dstObj = ObjRay (ro, rd);
-  if (dstBall < min (dstObj, dstFar)) {
-    col = vec3 (0.7, 0.5, 0.3) * (0.4 + 0.6 * max (dot (vnBall, ltDir), 0.));
-  } else if (dstObj < dstFar) {
-    ro += rd * dstObj;
-    idObjT = idObj;
-    vn = ObjNf (ro);
-    idObj = idObjT;
-    col = vec3 (0.8, 0.8, 0.1);
-    if (idObj == 1) col = vec3 (0.9, 0.9, 1.);
-    else if (idObj == 2) col = vec3 (1., 1., 0.);
-    else if (idObj == 3) col = WoodCol (ro, vn);
-    else if (idObj == 4) col = vec3 (0.6, 0.6, 0.7);
-    col = col * (0.2 + 0.8 * max (dot (vn, ltDir), 0.) +
-       0.5 * pow (max (0., dot (ltDir, reflect (rd, vn))), 64.));
-  } else col = (1. - 2. * dot (rd.xy, rd.xy)) * vec3 (0.2, 0.2, 0.4);
-  col = clamp (col, 0., 1.);
-  return col;
-}
-
-void mainImage (out vec4 fragColor, in vec2 fragCoord)
-{
-  mat3 vuMat;
-  vec4 stDat, slVal;
-  vec3 ro, rd, col;
-  vec2 canvas, uv, ori, ca, sa;;
-  float az, el, asp, parmL, parmM, mFrac, eTot;
-  canvas = iResolution.xy;
-  uv = 2. * fragCoord.xy / canvas - 1.;
-  uv.x *= canvas.x / canvas.y;
-  dstFar = 30.;
-  asp = canvas.x / canvas.y;
-  stDat = Loadv4 (0);
-  eTot = stDat.y;
-  el = stDat.z;
-  az = stDat.w;
-  stDat = Loadv4 (1);
-  pAng[0] = stDat.x;
-  pAng[1] = stDat.y;
-  slVal = Loadv4 (2);
-  parmL = (slVal.x - 0.5) * ((slVal.x >= 0.5) ? 1. : 1. / 5.) * 8. + 1.;
-  parmM = (slVal.y - 0.5) * ((slVal.y >= 0.5) ? 1. : 1. / 5.) * 8. + 1.;
-  rLen[0] = 2. / (1. + parmL);
-  rLen[1] = 2. * parmL / (1. + parmL);
-  mFrac = parmM / (1. + parmM);
-  bRad[0] = 0.05 * (1. + 3. * sqrt (1. - mFrac));
-  bRad[1] = 0.05 * (1. + 3. * sqrt (mFrac));
-  ori = vec2 (el, az);
-  ca = cos (ori);
-  sa = sin (ori);
-  vuMat = mat3 (ca.y, 0., - sa.y, 0., 1., 0., sa.y, 0., ca.y) *
-     mat3 (1., 0., 0., 0., ca.x, - sa.x, 0., sa.x, ca.x);
-  rd = vuMat * normalize (vec3 (uv, 3.));
-  ro = vuMat * vec3 (0., 0., -15.);
-  ltDir = vuMat * normalize (vec3 (1., 2., -1.));
-  col = ShowScene (ro, rd);
-  col = ShowWg (uv, canvas, col, slVal);
-  col = mix (col, vec3 (1., 1., 0.), ShowInt (0.5 * uv - vec2 (0.47 * asp, - 0.45),
-     vec2 (0.06 * asp, 0.03), 4., floor (100. * eTot)));
-  fragColor = vec4 (col, 1.);
-}
-
-vec3 ShowWg (vec2 uv, vec2 canvas, vec3 col, vec4 slVal)
-{
-  vec4 wgBx[4];
-  vec3 cc;
-  vec2 ut, ust;
-  float vW[4], asp;
-  asp = canvas.x / canvas.y;
-  wgBx[0] = vec4 (-0.45 * asp, 0., 0.012 * asp, 0.18);
-  wgBx[1] = vec4 (-0.35 * asp, 0., 0.012 * asp, 0.18);
-  wgBx[2] = vec4 ( 0.35 * asp, 0., 0.012 * asp, 0.18);
-  wgBx[3] = vec4 ( 0.45 * asp, 0., 0.012 * asp, 0.18);
-  vW[0] = slVal.x;
-  vW[1] = slVal.y;
-  vW[2] = slVal.z;
-  vW[3] = slVal.w;
-  for (int k = 0; k < 4; k ++) {
-    cc = (k < 2) ? vec3 (0.2, 1., 0.2) : vec3 (1., 0.2, 0.2);
-    ut = 0.5 * uv - wgBx[k].xy;
-    ust = abs (ut) - wgBx[k].zw * vec2 (0.7, 1.);
-    if (max (ust.x, ust.y) < 0.) {
-      if  (min (abs (ust.x), abs (ust.y)) * canvas.y < 2.) col = vec3 (1., 1., 0.);
-      else col = (mod (0.5 * ((0.5 * uv.y - wgBx[k].y) / wgBx[k].w - 0.99), 0.1) *
-         canvas.y < 6.) ? vec3 (1., 1., 0.) : vec3 (0.6);
+float map_detailed(vec3 p) {
+    float freq = SEA_FREQ;
+    float amp = SEA_HEIGHT;
+    float choppy = SEA_CHOPPY;
+    vec2 uv = p.xz; uv.x *= 0.75;
+    
+    float d, h = 0.0;    
+    for(int i = 0; i < ITER_FRAGMENT; i++) {        
+    	d = sea_octave((uv+SEA_TIME)*freq,choppy);
+    	d += sea_octave((uv-SEA_TIME)*freq,choppy);
+        h += d * amp;        
+    	uv *= octave_m; freq *= 1.9; amp *= 0.22;
+        choppy = mix(choppy,1.0,0.2);
     }
-    ut.y -= (vW[k] - 0.5) * 2. * wgBx[k].w;
-    ut = abs (ut) * vec2 (1., 2.);
-    if (length (ut) < 0.03 && max (ut.x, ut.y) > 0.01) col = cc;
-  }
-  return col;
+    return p.y - h;
 }
 
-float DigSeg (vec2 q)
-{
-  return (1. - smoothstep (0.13, 0.17, abs (q.x))) *
-     (1. - smoothstep (0.5, 0.57, abs (q.y)));
+vec3 getSeaColor(vec3 p, vec3 n, vec3 l, vec3 eye, vec3 dist) {  
+    float fresnel = 1.0 - max(dot(n,-eye),0.0);
+    fresnel = pow(fresnel,3.0) * 0.65;
+        
+    vec3 reflected = getSkyColor(reflect(eye,n));    
+    vec3 refracted = SEA_BASE + diffuse(n,l,80.0) * SEA_WATER_COLOR * 0.12; 
+    
+    vec3 color = mix(refracted,reflected,fresnel);
+    
+    float atten = max(1.0 - dot(dist,dist) * 0.001, 0.0);
+    color += SEA_WATER_COLOR * (p.y - SEA_HEIGHT) * 0.18 * atten;
+    
+    color += vec3(specular(n,l,eye,60.0));
+    
+    return color;
 }
 
-float ShowDig (vec2 q, int iv)
-{
-  float d;
-  int k, kk;
-  const vec2 vp = vec2 (0.5, 0.5), vm = vec2 (-0.5, 0.5), vo = vec2 (1., 0.);
-  if (iv < 5) {
-    if (iv == -1) k = 8;
-    else if (iv == 0) k = 119;
-    else if (iv == 1) k = 36;
-    else if (iv == 2) k = 93;
-    else if (iv == 3) k = 109;
-    else k = 46;
-  } else {
-    if (iv == 5) k = 107;
-    else if (iv == 6) k = 122;
-    else if (iv == 7) k = 37;
-    else if (iv == 8) k = 127;
-    else k = 47;
-  }
-  q = (q - 0.5) * vec2 (1.7, 2.3);
-  d = 0.;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.yx - vo);
-  k = kk;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.xy - vp);
-  k = kk;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.xy - vm);
-  k = kk;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.yx);
-  k = kk;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.xy + vm);
-  k = kk;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.xy + vp);
-  k = kk;  kk = k / 2;  if (kk * 2 != k) d += DigSeg (q.yx + vo);
-  return d;
+// tracing
+vec3 getNormal(vec3 p, float eps) {
+    vec3 n;
+    n.y = map_detailed(p);    
+    n.x = map_detailed(vec3(p.x+eps,p.y,p.z)) - n.y;
+    n.z = map_detailed(vec3(p.x,p.y,p.z+eps)) - n.y;
+    n.y = eps;
+    return normalize(n);
 }
 
-float ShowInt (vec2 q, vec2 cBox, float mxChar, float val)
-{
-  float nDig, idChar, s, sgn, v;
-  q = vec2 (- q.x, q.y) / cBox;
-  s = 0.;
-  if (min (q.x, q.y) >= 0. && max (q.x, q.y) < 1.) {
-    q.x *= mxChar;
-    sgn = sign (val);
-    val = abs (val);
-    nDig = (val > 0.) ? floor (max (log (val) / log (10.), 0.) + 0.001) + 1. : 1.;
-    idChar = mxChar - 1. - floor (q.x);
-    q.x = fract (q.x);
-    v = val / pow (10., mxChar - idChar - 1.);
-    if (sgn < 0.) {
-      if (idChar == mxChar - nDig - 1.) s = ShowDig (q, -1);
-      else ++ v;
+float heightMapTracing(vec3 ori, vec3 dir, out vec3 p) {  
+    float tm = 0.0;
+    float tx = 1000.0;    
+    float hx = map(ori + dir * tx);
+    if(hx > 0.0) return tx;   
+    float hm = map(ori + dir * tm);    
+    float tmid = 0.0;
+    for(int i = 0; i < NUM_STEPS; i++) {
+        tmid = mix(tm,tx, hm/(hm-hx));                   
+        p = ori + dir * tmid;                   
+    	float hmid = map(p);
+		if(hmid < 0.0) {
+        	tx = tmid;
+            hx = hmid;
+        } else {
+            tm = tmid;
+            hm = hmid;
+        }
     }
-    if (idChar >= mxChar - nDig) s = ShowDig (q, int (mod (floor (v), 10.)));
-  }
-  return s;
+    return tmid;
 }
 
-const vec4 cHashA4 = vec4 (0., 1., 57., 58.);
-const vec3 cHashA3 = vec3 (1., 57., 113.);
-const float cHashM = 43758.54;
-
-vec4 Hashv4f (float p)
-{
-  return fract (sin (p + cHashA4) * cHashM);
+// main
+void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
+	vec2 uv = fragCoord.xy / iResolution.xy;
+    uv = uv * 2.0 - 1.0;
+    uv.x *= iResolution.x / iResolution.y;    
+    float time = iGlobalTime * 0.3 + iMouse.x*0.01;
+        
+    // ray
+    vec3 ang = vec3(sin(time*3.0)*0.1,sin(time)*0.2+0.3,time);    
+    vec3 ori = vec3(0.0,3.5,time*5.0);
+    vec3 dir = normalize(vec3(uv.xy,-2.0)); dir.z += length(uv) * 0.15;
+    dir = normalize(dir) * fromEuler(ang);
+    
+    // tracing
+    vec3 p;
+    heightMapTracing(ori,dir,p);
+    vec3 dist = p - ori;
+    vec3 n = getNormal(p, dot(dist,dist) * EPSILON_NRM);
+    vec3 light = normalize(vec3(0.0,1.0,0.8)); 
+             
+    // color
+    vec3 color = mix(
+        getSkyColor(dir),
+        getSeaColor(p,n,light,dir,dist),
+    	pow(smoothstep(0.0,-0.05,dir.y),0.3));
+        
+    // post
+	fragColor = vec4(pow(color,vec3(0.75)), 1.0);
 }
-
-float Noisefv2 (vec2 p)
-{
-  vec4 t;
-  vec2 ip, fp;
-  ip = floor (p);
-  fp = fract (p);
-  fp = fp * fp * (3. - 2. * fp);
-  t = Hashv4f (dot (ip, cHashA3.xy));
-  return mix (mix (t.x, t.y, fp.x), mix (t.z, t.w, fp.x), fp.y);
-}
-
-float Fbm2 (vec2 p)
-{
-  float f, a;
-  f = 0.;
-  a = 1.;
-  for (int i = 0; i < 5; i ++) {
-    f += a * Noisefv2 (p);
-    a *= 0.5;
-    p *= 2.;
-  }
-  return f;
-}
-
-vec2 Rot2D (vec2 q, float a)
-{
-  return q * cos (a) + q.yx * sin (a) * vec2 (-1., 1.);
-}
-
-
-
 
 //_______________________________________________________________________________________________________
 

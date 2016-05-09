@@ -1,0 +1,23 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "soundcloudBackground",
+    "texture": "4127936c-9b74-4574-b954-ac8c762ae4b3",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      32,
+      58
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      32,
+      58
+    ],
+    "rotated": 0
+  }
+}
