@@ -928,7 +928,7 @@
     },
     "_enabled": true,
     "lastSceneName": "Effect19",
-    "nextSceneName": "Shader"
+    "nextSceneName": "Effect21"
   },
   {
     "__type__": "cc.Widget",

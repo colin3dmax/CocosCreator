@@ -184,7 +184,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 146.76,
+      "width": 357.93,
       "height": 40
     },
     "_children": [],
@@ -226,7 +226,7 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_isSystemFontUsed": true,
-    "_N$string": "Effect21",
+    "_N$string": "EffectForShaderToy",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$overflow": 0
@@ -295,7 +295,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "83a205ec-c260-48d8-be2b-dedf03d3e420"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -313,7 +313,7 @@
     "_atlas": null
   },
   {
-    "__type__": "4e579eseCxNcJ0ZlJMKwkmt",
+    "__type__": "ec0bddz0EhL45aBJr4t9QLx",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -322,7 +322,7 @@
     "_enabled": true,
     "glassFactor": 1,
     "flagShader": "Effect21.fs.glsl",
-    "frag_glsl": ""
+    "frag_glsl": "Effect10.fs.glsl"
   },
   {
     "__type__": "cc.Widget",

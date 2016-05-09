@@ -313,7 +313,7 @@
     "_atlas": null
   },
   {
-    "__type__": "4e579eseCxNcJ0ZlJMKwkmt",
+    "__type__": "ec0bddz0EhL45aBJr4t9QLx",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -322,7 +322,7 @@
     "_enabled": true,
     "glassFactor": 1,
     "flagShader": "Effect23.fs.glsl",
-    "frag_glsl": ""
+    "frag_glsl": "Effect10.fs.glsl"
   },
   {
     "__type__": "cc.Widget",
