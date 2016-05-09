@@ -44,7 +44,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_reorderChildDirty": false,
-    "_id": "33e457bd-5a4a-402c-81e7-736768cee2ca"
+    "_id": "c7ed9511-111a-4190-8854-6bb27de9ec0c"
   },
   {
     "__type__": "cc.Node",
@@ -184,7 +184,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 173.38,
+      "width": 104.53,
       "height": 40
     },
     "_children": [],
@@ -226,7 +226,7 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_isSystemFontUsed": true,
-    "_N$string": "Flux Core",
+    "_N$string": "Spout",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$overflow": 0
@@ -295,7 +295,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "195e19be-ee1e-4c8d-96b9-8be1c7543de4"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -321,7 +321,7 @@
     },
     "_enabled": true,
     "glassFactor": 1,
-    "flagShader": "Effect89.fs.glsl",
+    "flagShader": "Effect100.fs.glsl",
     "frag_glsl": "Effect10.fs.glsl"
   },
   {
