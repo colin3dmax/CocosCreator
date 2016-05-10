@@ -1,13 +1,15 @@
 var _default_vert = require("../Shaders/ccShader_Default_Vert.js");
 var _default_vert_no_mvp = require("../Shaders/ccShader_Default_Vert_noMVP.js");
 var _black_white_frag = require("../Shaders/ccShader_Avg_Black_White_Frag.js");
+var _normal_frag = require("../Shaders/ccShader_Normal_Frag.js");
 
 var EffectBlackWhite = cc.Class({
     "extends": cc.Component,
     name: "cc.EffectBlackWhite",
     editor: CC_EDITOR && {
         menu: 'i18n:MAIN_MENU.component.renderers/Effect/BlackWhite',
-        help: 'https://github.com/colin3dmax/CocosCreator/blob/master/Shader_docs/Effect_BlackWhite.md'
+        help: 'https://github.com/colin3dmax/CocosCreator/blob/master/Shader_docs/Effect_BlackWhite.md',
+        executeInEditMode: true
     },
 
     properties: {
@@ -27,22 +29,32 @@ var EffectBlackWhite = cc.Class({
     },
 
     onEnable: function onEnable() {
-        if (CC_EDITOR) {
-            this._super();
-            this._use();
-        }
+        this._use();
     },
 
     onDisable: function onDisable() {
-        if (CC_EDITOR) {
-            this._super();
-
-            this._use();
-        }
+        this._unUse();
     },
 
     onLoad: function onLoad() {
         this._use();
+    },
+    _unUse: function _unUse() {
+        this._program = new cc.GLProgram();
+        if (cc.sys.isNative) {
+            cc.log("use native GLProgram");
+            this._program.initWithString(_default_vert_no_mvp, _normal_frag);
+            this._program.link();
+            this._program.updateUniforms();
+        } else {
+            this._program.initWithVertexShaderByteArray(_default_vert, _normal_frag);
+            this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_POSITION, cc.macro.VERTEX_ATTRIB_POSITION);
+            this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_COLOR, cc.macro.VERTEX_ATTRIB_COLOR);
+            this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_TEX_COORD, cc.macro.VERTEX_ATTRIB_TEX_COORDS);
+            this._program.link();
+            this._program.updateUniforms();
+        }
+        this.setProgram(this.node._sgNode, this._program);
     },
 
     _use: function _use() {
