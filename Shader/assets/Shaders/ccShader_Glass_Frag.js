@@ -2,7 +2,9 @@
 /* 磨砂玻璃 3.0 */
 /* 磨砂玻璃 6.0 */
 
-module.exports = "precision mediump float;\n"
+module.exports = "#ifdef GL_ES\n"
+                +"precision mediump float;\n"
+                +"#endif\n"
                 + "varying vec2 v_texCoord;\n"
                 + "uniform float widthStep;\n"
                 + "uniform float heightStep;\n"

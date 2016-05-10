@@ -1,6 +1,8 @@
 /* 水平波浪 */
 
-module.exports = "precision mediump float;\n"
+module.exports =  "#ifdef GL_ES\n"
+				+"precision mediump float;\n"
+				+"#endif\n"
                 + "varying vec2 v_texCoord;\n"
                 + "uniform float motion;\n"
                 + "uniform float angle;\n"
