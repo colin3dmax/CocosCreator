@@ -1,8 +1,8 @@
 {
   "windows": {
     "main": {
-      "x": 474,
-      "y": 55,
+      "x": 303,
+      "y": 67,
       "width": 1766,
       "height": 1214,
       "layout": {
@@ -96,6 +96,12 @@
         "row": false,
         "type": "dock"
       }
+    },
+    "editor-window-1462844239913": {
+      "x": 1229,
+      "y": 54,
+      "width": 1199,
+      "height": 1166
     },
     "worker": {
       "x": 1080,

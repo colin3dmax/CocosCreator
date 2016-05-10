@@ -4,6 +4,7 @@ cc.Class({
     properties: {
         lastSceneName: "Shader",
         nextSceneName: "Effect01"
+
     },
 
     // use this for initialization
@@ -31,5 +32,8 @@ cc.Class({
         }
 
         cc.director.loadScene(this.getCurLevelName());
+    },
+    onClickToGitHub: function onClickToGitHub() {
+        window.open("http://forum.cocos.com/t/creator-shader/36388");
     }
 });

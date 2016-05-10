@@ -95,6 +95,9 @@
     "_components": [
       {
         "__id__": 14
+      },
+      {
+        "__id__": 15
       }
     ],
     "_prefab": null
@@ -508,5 +511,17 @@
     },
     "_fitWidth": false,
     "_fitHeight": true
+  },
+  {
+    "__type__": "298137scYlJoreHV0uCyjdd",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "btnGroupPrefab": {
+      "__uuid__": "289e5a19-adc5-41d3-b464-6bd29a64f6ae"
+    }
   }
 ]
