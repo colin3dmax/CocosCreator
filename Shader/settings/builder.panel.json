@@ -9,5 +9,5 @@
   "packageName": "com.cross2d.effect",
   "startScene": "361320d0-cdc6-4738-abe4-44368784a2f8",
   "title": "CreatorEffect",
-  "webOrientation": "auto"
+  "webOrientation": "landscape"
 }

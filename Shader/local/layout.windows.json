@@ -1,10 +1,10 @@
 {
   "windows": {
     "main": {
-      "x": 515,
-      "y": 40,
-      "width": 1910,
-      "height": 1248,
+      "x": 474,
+      "y": 55,
+      "width": 1766,
+      "height": 1214,
       "layout": {
         "docks": [
           {
@@ -75,11 +75,27 @@
         "type": "dock"
       }
     },
-    "editor-window-1462841787822": {
-      "x": 1229,
-      "y": 54,
-      "width": 1199,
-      "height": 1166
+    "editor-window-1462843532154": {
+      "x": 47,
+      "y": 283,
+      "width": 844,
+      "height": 821,
+      "layout": {
+        "docks": [
+          {
+            "active": 0,
+            "height": 700,
+            "panels": [
+              "builder.panel"
+            ],
+            "type": "panel",
+            "width": 500
+          }
+        ],
+        "no-collapse": true,
+        "row": false,
+        "type": "dock"
+      }
     },
     "worker": {
       "x": 1080,
