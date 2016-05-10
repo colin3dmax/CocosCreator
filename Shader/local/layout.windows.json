@@ -75,28 +75,6 @@
         "type": "dock"
       }
     },
-    "editor-window-1462870841403": {
-      "x": 119,
-      "y": 478,
-      "width": 844,
-      "height": 821,
-      "layout": {
-        "docks": [
-          {
-            "active": 0,
-            "height": 799,
-            "panels": [
-              "builder.panel"
-            ],
-            "type": "panel",
-            "width": 844
-          }
-        ],
-        "no-collapse": true,
-        "row": false,
-        "type": "dock"
-      }
-    },
     "worker": {
       "x": 1080,
       "y": 548,
