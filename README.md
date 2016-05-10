@@ -8,6 +8,7 @@
 ##ToDo:
 * textureCube的支持
 * 对声音的支持
+* BuffABC模式的支持
 
 ###Shader效果展示  
 ![Shader Web运行效果](screen_imgs/EffectWebAnim.gif)

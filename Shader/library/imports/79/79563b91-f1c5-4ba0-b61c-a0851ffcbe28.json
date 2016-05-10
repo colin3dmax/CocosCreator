@@ -44,7 +44,7 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_reorderChildDirty": false,
-    "_id": "33e457bd-5a4a-402c-81e7-736768cee2ca"
+    "_id": "79563b91-f1c5-4ba0-b61c-a0851ffcbe28"
   },
   {
     "__type__": "cc.Node",
@@ -184,7 +184,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 173.38,
+      "width": 537.97,
       "height": 40
     },
     "_children": [],
@@ -226,7 +226,7 @@
     "_lineHeight": 40,
     "_enableWrapText": true,
     "_isSystemFontUsed": true,
-    "_N$string": "Flux Core",
+    "_N$string": "2nd Order Implicit Approximati",
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$overflow": 0
@@ -321,7 +321,7 @@
     },
     "_enabled": true,
     "glassFactor": 1,
-    "flagShader": "Effect89.fs.glsl",
+    "flagShader": "Effect107.fs.glsl",
     "frag_glsl": "Effect10.fs.glsl"
   },
   {

@@ -52,7 +52,7 @@ cc.Class({
                 x:now.getYear(),//year
                 y:now.getMonth(),//month
                 z:now.getDate(),//day
-                w:now.getTime(),//time seconds
+                w:now.getTime()+now.getMilliseconds()/1000,//time seconds
             },
             isMouseDown:false,
 
@@ -139,7 +139,14 @@ cc.Class({
         this.parameters.time = (Date.now() - this.parameters.startTime)/1000;
         this.parameters.resolution.x = ( this.node.getContentSize().width );
         this.parameters.resolution.y = ( this.node.getContentSize().height );
+        var now = new Date();
 
+        this.parameters.date={
+                x:now.getYear(),//year
+                y:now.getMonth(),//month
+                z:now.getDate(),//day
+                w:now.getTime()+now.getMilliseconds()/1000,//time seconds
+            };
     },
 
     _use: function()

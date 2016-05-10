@@ -321,7 +321,8 @@
     },
     "_enabled": true,
     "glassFactor": 1,
-    "flagShader": "Effect09.fs.glsl"
+    "flagShader": "Effect09.fs.glsl",
+    "frag_glsl": "Effect10.fs.glsl"
   },
   {
     "__type__": "cc.Widget",

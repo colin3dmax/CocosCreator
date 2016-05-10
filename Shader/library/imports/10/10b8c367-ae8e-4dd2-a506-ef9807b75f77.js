@@ -7,11 +7,29 @@ cc.Class({
     },
 
     // use this for initialization
-    onLoad: function onLoad() {},
+    onLoad: function onLoad() {
+        if (!window.curLevelId) {
+            window.curLevelId = 1;
+        }
+    },
+    getCurLevelName: function getCurLevelName() {
+        var levelName = "Effect";
+        levelName += window.curLevelId < 10 ? "0" + window.curLevelId : window.curLevelId;
+        return levelName;
+    },
     onClickNext: function onClickNext() {
-        cc.director.loadScene(this.nextSceneName);
+        window.curLevelId++;
+        if (window.curLevelId > 150) {
+            window.curLevelId = 1;
+        }
+        cc.director.loadScene(this.getCurLevelName());
     },
     onClickLast: function onClickLast() {
-        cc.director.loadScene(this.lastSceneName);
+        window.curLevelId--;
+        if (window.curLevelId <= 1) {
+            window.curLevelId = 0;
+        }
+
+        cc.director.loadScene(this.getCurLevelName());
     }
 });
