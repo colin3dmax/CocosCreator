@@ -25,6 +25,7 @@ var EffectBlackWhite = cc.Class({
     _initSgNode: function _initSgNode() {},
 
     ctor: function ctor() {
+
         //this._use();
     },
 
@@ -37,7 +38,7 @@ var EffectBlackWhite = cc.Class({
     },
 
     onLoad: function onLoad() {
-        this._use();
+        //this._use();
     },
     _unUse: function _unUse() {
         this._program = new cc.GLProgram();
