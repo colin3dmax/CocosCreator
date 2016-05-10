@@ -3,25 +3,29 @@ var _default_vert_no_mvp = require("../Shaders/ccShader_Default_Vert_noMVP.js");
 var _black_white_frag = require("../Shaders/ccShader_Avg_Black_White_Frag.js");
 
 var EffectBlackWhite = cc.Class({
-    extends: cc.Component,
-
-    properties: {
-        isAllChildrenUser:false,
+    "extends": cc.Component,
+    name: "cc.EffectBlackWhite",
+    editor: CC_EDITOR && {
+        menu: 'i18n:MAIN_MENU.component.renderers/Mask',
+        help: 'i18n:COMPONENT.help_url.mask'
     },
 
-    onLoad: function () {
+    properties: {
+        isAllChildrenUser: false
+    },
+
+    onLoad: function onLoad() {
         this._use();
     },
 
-    _use: function()
-    {
+    _use: function _use() {
         this._program = new cc.GLProgram();
         if (cc.sys.isNative) {
-            cc.log("use native GLProgram")
+            cc.log("use native GLProgram");
             this._program.initWithString(_default_vert_no_mvp, _black_white_frag);
             this._program.link();
             this._program.updateUniforms();
-        }else{
+        } else {
             this._program.initWithVertexShaderByteArray(_default_vert, _black_white_frag);
             this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_POSITION, cc.macro.VERTEX_ATTRIB_POSITION);
             this._program.addAttribute(cc.macro.ATTRIBUTE_NAME_COLOR, cc.macro.VERTEX_ATTRIB_COLOR);
@@ -29,36 +33,25 @@ var EffectBlackWhite = cc.Class({
             this._program.link();
             this._program.updateUniforms();
         }
-        this.setProgram( this.node._sgNode, this._program );
-        
+        this.setProgram(this.node._sgNode, this._program);
     },
-    setProgram:function (node, program) {
+    setProgram: function setProgram(node, program) {
 
         if (cc.sys.isNative) {
             var glProgram_state = cc.GLProgramState.getOrCreateWithGLProgram(program);
             node.setGLProgramState(glProgram_state);
-        }else{
-            node.setShaderProgram(program);    
+        } else {
+            node.setShaderProgram(program);
         }
-        
+
         var children = node.children;
-        if (!children)
-            return;
-    
-        for (var i = 0; i < children.length; i++)
-        {
+        if (!children) return;
+
+        for (var i = 0; i < children.length; i++) {
             this.setProgram(children[i], program);
         }
-    },
+    }
 
-    
 });
 
-
-
-
-
 cc.BlackWhite = module.exports = EffectBlackWhite;
-
-
-

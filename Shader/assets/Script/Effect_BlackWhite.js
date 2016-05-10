@@ -4,6 +4,11 @@ var _black_white_frag = require("../Shaders/ccShader_Avg_Black_White_Frag.js");
 
 var EffectBlackWhite = cc.Class({
     extends: cc.Component,
+    name:"cc.EffectBlackWhite",
+    editor: CC_EDITOR && {
+         menu: 'i18n:MAIN_MENU.component.renderers/Mask',
+        help: 'https://github.com/colin3dmax/CocosCreator',
+    },
 
     properties: {
         isAllChildrenUser:false,
