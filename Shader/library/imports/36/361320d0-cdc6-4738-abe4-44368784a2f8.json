@@ -373,7 +373,8 @@
     "node": {
       "__id__": 7
     },
-    "_enabled": true
+    "_enabled": true,
+    "isAllChildrenUser": false
   },
   {
     "__type__": "cc.Node",

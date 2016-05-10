@@ -6,12 +6,40 @@ var EffectBlackWhite = cc.Class({
     extends: cc.Component,
     name:"cc.EffectBlackWhite",
     editor: CC_EDITOR && {
-         menu: 'i18n:MAIN_MENU.component.renderers/Mask',
-        help: 'https://github.com/colin3dmax/CocosCreator',
+        menu: 'i18n:MAIN_MENU.component.renderers/Effect/BlackWhite',
+        help: 'https://github.com/colin3dmax/CocosCreator/blob/master/Shader_docs/Effect_BlackWhite.md',
     },
 
     properties: {
         isAllChildrenUser:false,
+    },
+    
+    _createSgNode: function () {
+        // this._clippingStencil = new cc.DrawNode();
+        // this._clippingStencil.retain();
+        // return new cc.ClippingNode(this._clippingStencil);
+    },
+
+    _initSgNode: function () {},
+    
+    ctor: function () {
+        //this._use();
+    },
+
+    onEnable: function () {
+        if(CC_EDITOR){
+            this._super();
+            this._use();
+        }
+      
+    },
+
+    onDisable: function () {
+        if(CC_EDITOR){
+            this._super();
+            
+            this._use();
+        }
     },
 
     onLoad: function () {
@@ -59,11 +87,7 @@ var EffectBlackWhite = cc.Class({
     
 });
 
-
-
-
-
-cc.BlackWhite = module.exports = EffectBlackWhite;
+cc.EffectBlackWhite = module.exports = EffectBlackWhite;
 
 
 
