@@ -194,8 +194,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -37,
-      "y": 285
+      "x": 0,
+      "y": 248
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -255,7 +255,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 800,
-      "height": 550
+      "height": 480
     },
     "_children": [],
     "_rotationX": 0,
@@ -265,7 +265,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -19
+      "y": -39
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -313,14 +313,16 @@
     "_atlas": null
   },
   {
-    "__type__": "60a3aeK0RZJGqMkSoAzoPXI",
+    "__type__": "ec0bddz0EhL45aBJr4t9QLx",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 6
     },
     "_enabled": true,
-    "glassFactor": 1
+    "glassFactor": 1,
+    "flagShader": "Effect27.fs.glsl",
+    "frag_glsl": "Effect10.fs.glsl"
   },
   {
     "__type__": "cc.Widget",
