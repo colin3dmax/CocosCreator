@@ -1,8 +1,8 @@
 {
   "windows": {
     "main": {
-      "x": 804,
-      "y": 174,
+      "x": 1120,
+      "y": 183,
       "width": 1766,
       "height": 991,
       "layout": {
@@ -75,33 +75,33 @@
         "type": "dock"
       }
     },
-    "editor-window-1462843532154": {
-      "x": 47,
-      "y": 283,
+    "editor-window-1462847881869": {
+      "x": 282,
+      "y": 188,
+      "width": 1199,
+      "height": 1166
+    },
+    "editor-window-1462848591293": {
+      "x": 27,
+      "y": 617,
       "width": 844,
       "height": 821,
       "layout": {
         "docks": [
           {
             "active": 0,
-            "height": 700,
+            "height": 799,
             "panels": [
               "builder.panel"
             ],
             "type": "panel",
-            "width": 500
+            "width": 844
           }
         ],
         "no-collapse": true,
         "row": false,
         "type": "dock"
       }
-    },
-    "editor-window-1462844239913": {
-      "x": 1598,
-      "y": 331,
-      "width": 1199,
-      "height": 1166
     }
   }
 }

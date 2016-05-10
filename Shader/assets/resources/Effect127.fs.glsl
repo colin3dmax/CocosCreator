@@ -35,7 +35,6 @@ uniform vec4      iDate;                 // (year, month, day, time in seconds)
 
 
 
-
 //_______________________________________________________________________________________________________
 
 // Created by inigo quilez - iq/2014
