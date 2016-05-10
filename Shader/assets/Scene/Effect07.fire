@@ -94,10 +94,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 10
+        "__id__": 9
       },
       {
-        "__id__": 11
+        "__id__": 10
       }
     ],
     "_prefab": null
@@ -156,7 +156,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 9
+        "__id__": 8
       }
     ],
     "_prefab": null
@@ -233,7 +233,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CircleEffect",
+    "_name": "Title",
     "_objFlags": 0,
     "_opacity": 255,
     "_color": {
@@ -254,8 +254,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 800,
-      "height": 480
+      "width": 320,
+      "height": 40
     },
     "_children": [],
     "_rotationX": 0,
@@ -265,7 +265,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": -39
+      "y": 44
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -274,54 +274,32 @@
     "_tag": -1,
     "_opacityModifyRGB": false,
     "_reorderChildDirty": false,
-    "_id": "c1172F3GHdNb5JDS/IF8jaj",
+    "_id": "ce6cc7A7BBGCaA8H7dyzoKP",
     "_active": true,
     "_components": [
       {
         "__id__": 7
-      },
-      {
-        "__id__": 8
       }
     ],
     "_prefab": null
   },
   {
-    "__type__": "cc.Sprite",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 6
     },
     "_enabled": true,
-    "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
-    },
-    "_type": 0,
-    "_sizeMode": 0,
-    "_fillType": 0,
-    "_fillCenter": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "_fillStart": 0,
-    "_fillRange": 0,
-    "_isTrimmedMode": true,
-    "_srcBlendFactor": 770,
-    "_dstBlendFactor": 771,
-    "_atlas": null
-  },
-  {
-    "__type__": "7be053+GGBArIrzaFkYCT1g",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 6
-    },
-    "_enabled": true,
-    "glassFactor": 1,
-    "flagShader": " #ifdef GL_ES \n precision mediump float;\n #endif\n \n uniform float time;\n uniform vec2 mouse;\n uniform vec2 resolution;\n const float PI=atan(0.0,-1.0);\n float wa(float val){\n\treturn floor(0.5+sin(val));\n }\n float hue2rgb(float f1, float f2, float hue) {\n    if (hue < 0.0){\n        hue += 1.0;\n     }\n     else if (hue > 1.0){\n        hue -= 1.0;\n     }\n     float res;\n     if ((6.0 * hue) < 1.0){\n        res = f1 + (f2 - f1) * 6.0 * hue;\n     }\n     else if ((2.0 * hue) < 1.0){\n        res = f2;\n     }\n     else if ((3.0 * hue) < 2.0){\n        res = f1 + (f2 - f1) * ((2.0 / 3.0) - hue) * 6.0;\n     }\n     else{\n        res = f1;\n     }\n     return res;\n }\n  vec3 hsl2rgb(vec3 hsl) {\n    vec3 rgb;\n          if (hsl.y == 0.0) {\n        rgb = vec3(hsl.z);\n     }\n else {\n        float f2;\n                  if (hsl.z < 0.5){\n            f2 = hsl.z * (1.0 + hsl.y);\n         }\n         else{\n            f2 = hsl.z + hsl.y - hsl.y * hsl.z;\n         }\n                      float f1 = 2.0 * hsl.z - f2;\n                  rgb.r = hue2rgb(f1, f2, hsl.x + (1.0/3.0));\n         rgb.g = hue2rgb(f1, f2, hsl.x);\n         rgb.b = hue2rgb(f1, f2, hsl.x - (1.0/3.0));\n     }\n        return rgb;\n }\n  vec3 hsl2rgb(float h, float s, float l) {\n    return hsl2rgb(vec3(h, s, l));\n }\n void main( void ) {\nfloat t=time;\n \tvec2 position = ( gl_FragCoord.xy / resolution.yy )-vec2(0.5)*resolution.xx/resolution.yx;\n \tvec2 pos=position;\n \tfloat color = 0.0;\n \tfloat len=length(pos);\n \tint bar=int(floor(len*(sin(t)+1.8)*10.0));\n \tfloat prog=mod(len*(sin(t)+1.8)*10.0,1.0);\n \tint dir=int(mod(float(bar),2.0));\n \tint angle=int(floor(atan(pos.y,pos.x)/atan(0.0,-1.0)*10.0));\n \tint angp=int(mod(float(bar),2.0));\n \tfloat no=wa( (atan(pos.y,pos.x)*10.0+float(angp)*PI*2.0+5.0*t*(float(dir)*2.0-1.0)+0.0*t))/2.0+0.5;\n \tcolor += (no);\n \tvec3 col=vec3(color);\n \tif(no>0.75){\n\t\tcol=hsl2rgb(mod(time/10.0,1.0),0.7,0.3);\n \t}\n \tif(no==0.5){\n     \t}\n \tif(no<0.25){\n\t\tcol=hsl2rgb(mod(time/10.0+0.5,1.0),0.7,0.1);\n \t}\n \tgl_FragColor = vec4( col*(prog*1.5), 1.0 );\n }\n"
+    "_useOriginalSize": false,
+    "_fontSize": 40,
+    "_lineHeight": 40,
+    "_enableWrapText": true,
+    "_isSystemFontUsed": true,
+    "_N$string": "先空着，后面会补",
+    "_N$horizontalAlign": 1,
+    "_N$verticalAlign": 1,
+    "_N$overflow": 0
   },
   {
     "__type__": "cc.Widget",
