@@ -5,8 +5,8 @@
 * 新增加20个Shader特效
 * 新增加160个Shadertoy的特效
 
-##日志：
-* 优化Shader代码的写法，更易于阅读修改
+##日志： 
+* 优化Shader代码的写法，更易于阅读修改 
 
 ##ToDo:
 * textureCube的支持
