@@ -3,3 +3,57 @@ Shader/temp
 Shader/build
 Shader/temp/
 .DS_Store
+
+
+# mac-osx files
+.DS_store
+profile
+
+# visual-studio files
+*.ncb
+*.sln
+*.suo
+*.vcproj.*.user
+*.pdb
+*.idb
+*.csproj
+*.csproj.user
+obj/*
+
+# xcode files
+PLBlocks.framework/*
+*.pbxuser
+*.mode1v3
+*~.nib/
+*.perspective
+*.perspectivev3
+xcuserdata/
+
+# gcc files
+*.gch
+
+# exvim files
+*.err
+*.exvim
+.exvim.*/
+
+# webstorm
+.idea
+
+# npm files
+npm-debug.log
+
+# project files
+node_modules/
+bower_components/
+ext/
+bin/
+builtin/
+utils/api
+apidocs/
+dist/
+utils/versions
+local-setting.json
+editor-framework
+asset-db
+cocos2d

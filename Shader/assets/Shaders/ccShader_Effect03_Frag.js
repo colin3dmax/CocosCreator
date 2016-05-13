@@ -1,42 +1,46 @@
-module.exports = "#ifdef GL_ES\n"
-				+"precision mediump float;\n"
-				+"#endif\n"
-				+"\n"
-				+"uniform float time;\n"
-				+"uniform vec2 mouse_touch;\n"
-				+"uniform vec2 resolution;\n"
-				+"\n"
-				+"float sphIntersect(vec3 ro, vec3 rd, vec4 sph)\n"
-				+"{\n"
-				+"    vec3 oc = ro - sph.xyz;\n"
-				+"    float b = dot( oc, rd );\n"
-				+"    float c = dot( oc, oc ) - sph.w*sph.w;\n"
-				+"    float h = b*b - c;\n"
-				+"    if( h<0.0 ) return -1.0;\n"
-				+"    h = sqrt( h );\n"
-				+"    return -b - h;\n"
-				+"}\n"
-				+"\n"
-				+"void main()\n"
-				+"{\n"
-				+"	vec2 mo = mouse_touch * 2.0 - 1.0;\n"
-				+"	vec3 col = vec3(0.5, 1, 1);\n"
-				+"	float aspect = resolution.x / resolution.y;\n"
-				+"\n"
-				+"	vec2 uv = (gl_FragCoord.xy / resolution.xy) * 2.0 - 1.0;\n"
-				+"	uv.x *= aspect;\n"
-				+"\n"
-				+"	vec3 rdir = normalize(vec3(uv, 3.0));\n"
-				+"	vec3 rpos = vec3(0, 0, -10);\n"
-				+"\n"
-				+"	float dist = sphIntersect(rpos, rdir, vec4(0, 0, 0, 1.5));\n"
-				+"	if(dist != -1.0){\n"
-				+"		vec3 ldir = vec3(mo.x, mo.y, -1.0);\n"
-				+"		vec3 snorm = normalize(rpos + rdir * dist);\n"
-				+"		col = vec3(1, 0, 0) * max(dot(snorm, ldir), 0.0);\n"
-				+"	}\n"
-				+"\n"
-				+"	col = pow(col, vec3(0.454545));\n"
-				+"	gl_FragColor = vec4(col, 1.0);\n"
-				+"}\n"
+module.exports =
+`
+#ifdef GL_ES
+precision mediump float;
+#endif
 
+uniform float time;
+uniform vec2 mouse_touch;
+uniform vec2 resolution;
+
+float sphIntersect(vec3 ro, vec3 rd, vec4 sph)
+{
+    vec3 oc = ro - sph.xyz;
+    float b = dot( oc, rd );
+    float c = dot( oc, oc ) - sph.w*sph.w;
+    float h = b*b - c;
+    if( h<0.0 ) return -1.0;
+    h = sqrt( h );
+    return -b - h;
+}
+
+void main()
+{
+	vec2 mo = mouse_touch * 2.0 - 1.0;
+	vec3 col = vec3(0.5, 1, 1);
+	float aspect = resolution.x / resolution.y;
+
+	vec2 uv = (gl_FragCoord.xy / resolution.xy) * 2.0 - 1.0;
+	uv.x *= aspect;
+
+	vec3 rdir = normalize(vec3(uv, 3.0));
+	vec3 rpos = vec3(0, 0, -10);
+
+	float dist = sphIntersect(rpos, rdir, vec4(0, 0, 0, 1.5));
+	if(dist != -1.0){
+		vec3 ldir = vec3(mo.x, mo.y, -1.0);
+		vec3 snorm = normalize(rpos + rdir * dist);
+		col = vec3(1, 0, 0) * max(dot(snorm, ldir), 0.0);
+	}
+
+	col = pow(col, vec3(0.454545));
+	gl_FragColor = vec4(col, 1.0);
+}
+
+
+`

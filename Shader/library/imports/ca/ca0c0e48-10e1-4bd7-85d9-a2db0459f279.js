@@ -5,7 +5,6 @@ var _normal_frag = require("../Shaders/ccShader_Normal_Frag.js");
 
 var EffectBlackWhite = cc.Class({
     "extends": cc.Component,
-    name: "cc.EffectBlackWhite",
     editor: CC_EDITOR && {
         menu: 'i18n:MAIN_MENU.component.renderers/Effect/BlackWhite',
         help: 'https://github.com/colin3dmax/CocosCreator/blob/master/Shader_docs/Effect_BlackWhite.md',
@@ -23,11 +22,6 @@ var EffectBlackWhite = cc.Class({
     },
 
     _initSgNode: function _initSgNode() {},
-
-    ctor: function ctor() {
-
-        //this._use();
-    },
 
     onEnable: function onEnable() {
         this._use();

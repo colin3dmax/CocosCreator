@@ -135,7 +135,7 @@ cc.Class({
             }
         }
     },
-    updateGLParameters(){
+    updateGLParameters:function(){
         this.parameters.time = (Date.now() - this.parameters.startTime)/1000;
         this.parameters.resolution.x = ( this.node.getContentSize().width );
         this.parameters.resolution.y = ( this.node.getContentSize().height );

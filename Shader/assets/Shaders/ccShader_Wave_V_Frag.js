@@ -1,14 +1,17 @@
 /* 垂直波浪 */
 
-module.exports =  "#ifdef GL_ES\n"
-				+"precision mediump float;\n"
-				+"#endif\n"
-                + "varying vec2 v_texCoord;\n"
-                + "uniform float motion;\n"
-                + "uniform float angle;\n"
-                + "void main()\n"
-                + "{\n"
-                + "    vec2 tmp = v_texCoord;\n"
-                + "    tmp.y = tmp.y + 0.05 * sin(motion +  tmp.x * angle);\n"
-                + "    gl_FragColor = texture2D(CC_Texture0, tmp);\n"
-                + "}\n";
+module.exports =  
+`
+#ifdef GL_ES
+precision mediump float;
+#endif
+varying vec2 v_texCoord;
+uniform float motion;
+uniform float angle;
+void main()
+{
+    vec2 tmp = v_texCoord;
+    tmp.y = tmp.y + 0.05 * sin(motion +  tmp.x * angle);
+    gl_FragColor = texture2D(CC_Texture0, tmp);
+}
+`
