@@ -6,7 +6,7 @@
   "filterMode": "bilinear",
   "subMetas": {
     "speakerOn": {
-      "ver": "1.0.2",
+      "ver": "1.0.3",
       "uuid": "7439b38d-7727-4798-b446-98ce53bd2c5c",
       "rawTextureUuid": "0fc2a9b7-cb3e-4f55-9537-a6dd832075a7",
       "trimType": "auto",
@@ -18,6 +18,8 @@
       "trimY": 2,
       "width": 17,
       "height": 17,
+      "rawWidth": 22,
+      "rawHeight": 22,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

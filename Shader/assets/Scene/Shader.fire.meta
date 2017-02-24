@@ -1,5 +1,7 @@
 {
   "ver": "1.0.0",
   "uuid": "361320d0-cdc6-4738-abe4-44368784a2f8",
+  "asyncLoadAssets": false,
+  "autoReleaseAssets": false,
   "subMetas": {}
 }

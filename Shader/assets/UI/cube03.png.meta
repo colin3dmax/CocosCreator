@@ -6,7 +6,7 @@
   "filterMode": "bilinear",
   "subMetas": {
     "cube03": {
-      "ver": "1.0.2",
+      "ver": "1.0.3",
       "uuid": "c17225ff-6305-4aac-a076-4b26745dbbef",
       "rawTextureUuid": "11bbdf2d-fd95-4e02-8f2a-342fbf0014dd",
       "trimType": "auto",
@@ -18,6 +18,8 @@
       "trimY": 0,
       "width": 64,
       "height": 64,
+      "rawWidth": 64,
+      "rawHeight": 64,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
