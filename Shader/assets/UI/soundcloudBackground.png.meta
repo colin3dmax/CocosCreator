@@ -6,7 +6,7 @@
   "filterMode": "bilinear",
   "subMetas": {
     "soundcloudBackground": {
-      "ver": "1.0.2",
+      "ver": "1.0.3",
       "uuid": "dafcdb93-eeb7-4c87-ba71-7e524edac13d",
       "rawTextureUuid": "4127936c-9b74-4574-b954-ac8c762ae4b3",
       "trimType": "auto",
@@ -18,6 +18,8 @@
       "trimY": 0,
       "width": 32,
       "height": 58,
+      "rawWidth": 32,
+      "rawHeight": 58,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

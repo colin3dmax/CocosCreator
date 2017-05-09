@@ -6,7 +6,7 @@
   "filterMode": "bilinear",
   "subMetas": {
     "tex19": {
-      "ver": "1.0.2",
+      "ver": "1.0.3",
       "uuid": "43df5348-787f-4875-b2a6-8242215a8743",
       "rawTextureUuid": "af47b563-50ca-4474-b530-39796c35c24a",
       "trimType": "auto",
@@ -18,6 +18,8 @@
       "trimY": 0,
       "width": 64,
       "height": 64,
+      "rawWidth": 64,
+      "rawHeight": 64,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
